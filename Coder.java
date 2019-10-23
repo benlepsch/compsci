@@ -20,6 +20,6 @@ public class Coder {
             }
         }
 
-        
+        s.prntln(s.arrToString(encoded));
     }
 }

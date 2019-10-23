@@ -11,7 +11,7 @@ public class Shortcuts {
     /**
      * print a char array formatted as a string
      */
-    public String prntAsString(char[] arr) {
+    public String arrToString(char[] arr) {
         String out = "";
         for (int i = 0; i < arr.length; i++) {
             out += arr[i];
@@ -79,13 +79,19 @@ public class Shortcuts {
     void prntln(int[] output) {
         s.prnt("[");
         for (int i = 0; i < output.length; i++)
-            s.prnt(output[i] + ", ");
+            if (i == output.length - 1)
+                s.prnt(output[i]);
+            else
+                s.prnt(output[i] + ", ");
         s.prntln("]");
     }
     void prntln(char[] output) {
         s.prnt("[");
         for (int i = 0; i < output.length; i++)
-            s.prnt(output[i] + ", ");
+            if (i == output.length - 1)
+                s.prnt(output[i]);
+            else
+                s.prnt(output[i] + ", ");
         s.prntln("]");
     }
     void prntln(String output) {
