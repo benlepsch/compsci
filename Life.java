@@ -6,8 +6,8 @@ public class Life {
 
     // 2d arrays to hold values of the grid
     // 0 = dead 1 = alive (but when printing, alive cells are printed as X)
-    int[][] grid = new int[3][3];
-    int[][] grid2 = new int[3][3];
+    int[][] grid = new int[20][20];
+    int[][] grid2 = new int[20][20];
 
     // display a 2d array formatted like this:
     /*
@@ -43,63 +43,63 @@ public class Life {
         /*
             note that the "left" "above" "above_left" etc are relative when its being displayed by showGrid() not printGrid()
         */
-        if (y > 0) {
-            if (l.grid[y - 1][x] == 1) {
+        if (x > 0) {
+            if (l.grid[x - 1][y] == 1) {
                 alive ++;
-                s.prnt("left ");
+                //s.prnt("left ");
             }
         }
 
-        if (x > 0) {
-            if (l.grid[y][x - 1] == 1) {
+        if (y > 0) {
+            if (l.grid[x][y - 1] == 1) {
                 alive ++;
-                s.prnt("above ");
+                //s.prnt("above ");
             }
         }
 
         if (y > 0 && x > 0) {
-            if (l.grid[y - 1][x - 1] == 1) {
+            if (l.grid[x - 1][y - 1] == 1) {
                 alive ++;
-                s.prnt("above_left ");
-            }
-        }
-
-        if (y < maxY) {
-            if (l.grid[y + 1][x] == 1) {
-                alive ++;
-                s.prnt("right ");
+                //s.prnt("above_left ");
             }
         }
 
         if (x < maxX) {
-            if (l.grid[y][x + 1] == 1) {
+            if (l.grid[x + 1][y] == 1) {
                 alive ++;
-                s.prnt("below ");
+               //s.prnt("right ");
+            }
+        }
+
+        if (y < maxY) {
+            if (l.grid[x][y + 1] == 1) {
+                alive ++;
+                //s.prnt("below ");
             }
         }
 
         if (y < maxY && x < maxX) {
-            if (l.grid[y + 1][x + 1] == 1) {
+            if (l.grid[x + 1][y + 1] == 1) {
                 alive ++;
-                s.prnt("bottom_right ");
-            }
-        }
-
-        if (y < maxY && x > 0) {
-            if (l.grid[y + 1][x - 1] == 1) {
-                alive ++;
-                s.prnt("above_right ");
+                //s.prnt("bottom_right ");
             }
         }
 
         if (x < maxX && y > 0) {
-            if (l.grid[y - 1][x + 1] == 1) {
+            if (l.grid[x + 1][y - 1] == 1) {
                 alive ++;
-                s.prnt("bottom_left ");
+                //s.prnt("above_right ");
             }
         }
 
-        s.prntln();
+        if (y < maxY && x > 0) {
+            if (l.grid[x - 1][y + 1] == 1) {
+                alive ++;
+                //s.prnt("bottom_left ");
+            }
+        }
+
+        //s.prntln();
         
         return alive;
     }
@@ -113,7 +113,7 @@ public class Life {
     void showGrid() {
         for (int y = 0; y < l.grid.length; y++) {
             for (int x = 0; x < l.grid[0].length; x++) {
-                if (l.grid[y][x] == 1)
+                if (l.grid[x][y] == 1)
                     s.prnt("X ");
                 else
                     s.prnt("0 ");
@@ -128,7 +128,7 @@ public class Life {
         for (int i = 0; i < l.grid.length; i++) {
             for (int j = 0; j < l.grid[0].length; j++) {
                 al = l.aliveNeighbors(j, i);
-                s.prntln("on cell x: " + i + " y: " + j + "\talive: "  + l.grid[j][i] + "\talive neighbors: " + al);
+                //s.prntln("on cell x: " + i + " y: " + j + "\talive: "  + l.grid[j][i] + "\talive neighbors: " + al);
                 if (l.grid[j][i] == 1) {
                     if (!(al == 2) && !(al == 3)) {
                         l.grid2[j][i] = 0;
@@ -144,8 +144,8 @@ public class Life {
                 }
             }
         }
-        l.printGrid(l.grid);
-        l.printGrid(l.grid2);
+        //l.printGrid(l.grid);
+        //l.printGrid(l.grid2);
 
         for (int i = 0; i < l.grid.length; i++) {
             for (int j = 0; j < l.grid[0].length; j++) {
@@ -167,8 +167,11 @@ public class Life {
             x = s.input.nextInt() - 1;
             s.prnt("Enter y coordinate of cell (1-"+l.grid[0].length+") (or -1 to quit): ");
             y = s.input.nextInt() - 1;
-            if (y != -2)
-                l.grid[y][x] = 1;
+            if (y != -2) {
+                x = s.constrain(x, 0, l.grid.length - 1);
+                y = s.constrain(y, 0, l.grid[0].length - 1);
+                l.grid[x][y] = 1;
+            }
         
         } while (y != -2);
 

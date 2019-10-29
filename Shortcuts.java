@@ -8,6 +8,14 @@ public class Shortcuts {
         
     }
 
+    int constrain(int val, int min, int max) {
+        if (val < min)
+            return min;
+        if (val > max)
+            return max;
+        return val;
+    }
+
     /**
      * print a char array formatted as a string
      */
