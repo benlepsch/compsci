@@ -8,6 +8,17 @@ public class Shortcuts {
         
     }
 
+    int index(char[] arr, char val) {
+        if (!s.inArr(arr, val))
+            return -1;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == val) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     int constrain(int val, int min, int max) {
         if (val < min)
             return min;
