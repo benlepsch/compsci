@@ -62,6 +62,15 @@ public class Shortcuts {
         return false;
     }
 
+    public boolean inArr(String[] arr, String val) {
+        for (int i = 0; i < arr.length; i++) {
+            if (val.equals(arr[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * fill an array with a value
      * @param arr - array to fill
