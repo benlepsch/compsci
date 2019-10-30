@@ -8,6 +8,12 @@ public class Shortcuts {
         
     }
 
+    /**
+     * find the index of a value in an array
+     * index(['a','b','d'],'d') would return 2
+     * @param arr - array to search
+     * @param val - value to search for
+     */
     int index(char[] arr, char val) {
         if (!s.inArr(arr, val))
             return -1;
@@ -19,6 +25,23 @@ public class Shortcuts {
         return -1;
     }
 
+    int index(String[] arr, String val) {
+        if (!s.inArr(arr, val))
+            return -1;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(val)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * constrains an int value between the min and max
+     * @param val - value to constrain
+     * @param min - minimum output value
+     * @param max - maximum output value
+     */
     int constrain(int val, int min, int max) {
         if (val < min)
             return min;

@@ -34,7 +34,9 @@ public class Mankala {
             s.prnt("player 1: ");
             in = s.input.next();
 
-            //if (s.inArr(options, in.toLowerCase()));
+            if (s.inArr(options, in.toLowerCase())) {
+                
+            }
 
         }
     }
