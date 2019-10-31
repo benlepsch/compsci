@@ -29,6 +29,7 @@ public class Mankala {
         stones available = m.p1side[choice]
 
         for i in range(choice, m.p1side.length)
+            if there are still stones available
             fill player's side with stones'
 
         */
@@ -63,13 +64,12 @@ public class Mankala {
                     playing = false;
                     break;
                 }
-                
-
-                s.prnt("Player 1: ");
-                in = s.input.next();
 
                 // make sure player 1 picks something valid, so something that has at least one stone and that is a letter between a-f
                 do {
+                    s.prnt("Player 1: ");
+                    in = s.input.next();
+
                     if (!s.inArr(options, in.toLowerCase())) {
                         s.prntln("That isn't a valid choice");
                         continue;
@@ -92,12 +92,12 @@ public class Mankala {
                     playing = false;
                     break;
                 }
-                
-                s.prnt("Player 2: ");
-                in = s.input.next();
 
                 // make sure player 2 picks something valid, so something that has at least one stone and that is a letter between a-f
                 do {
+                    s.prnt("Player 2: ");
+                    in = s.input.next();
+
                     if (!s.inArr(options, in.toLowerCase())) {
                         s.prntln("That isn't a valid choice");
                         continue;
