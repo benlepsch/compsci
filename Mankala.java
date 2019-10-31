@@ -105,6 +105,23 @@ public class Mankala {
         return 0;
     }
 
+    // calculate who won
+    void endGame() {
+        for (int i = 0; i < m.p1side.length; i++) {
+            m.p1home += m.p1side[i];
+            m.p2home += m.p2side[i];
+        }
+        if (m.p1home > m.p2home) {
+            s.prntln("player 1 wins!");
+            return;
+        }
+        if (m.p2home > m.p1home) {
+            s.prntln("player 2 wins!");
+            return;
+        }
+        s.prntln("tie!");
+    }
+
     public static void main(String[] args) {
         String[] options = new String[] {"a", "b", "c", "d", "e", "f"};
         String in;
@@ -116,14 +133,14 @@ public class Mankala {
         m.p1home = m.p2home = 0;
 
         // game loop
-        boolean playing = true;
-        while (playing) {
+        while (true) {
             do {
                 m.displayBoard();
 
                 // if player 1 doesn't have any stones
                 if (s.arrEquals(s.fill(new int[6], 0), m.p1side)) {
                     s.prntln("player 1 can't move");
+                    m.endGame();
                     return;
                 }
 
@@ -153,6 +170,7 @@ public class Mankala {
                 // if player 2 doesn't have any stones
                 if (s.arrEquals(s.fill(new int[6], 0), m.p2side)) {
                     s.prntln("player 2 can't move");
+                    m.endGame();
                     return;
                 }
 
