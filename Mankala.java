@@ -34,6 +34,11 @@ public class Mankala {
                     m.p1side[i] ++;
                     stones --;
 
+                    // "steal" the stones from the other side and this side if it lands in an empty bin
+                    if (stones == 0 && m.p1side[i] == 1) {
+                        m.p1home += m.p1side[i] + m.p2side[m.p2side.length - i];
+                        m.p1side[i] = m.p2side[m.p2side.length - i] = 0;
+                    }
                 } else {
                     return 0;
                 }
@@ -79,6 +84,12 @@ public class Mankala {
                 if (stones > 0) {
                     m.p2side[i] ++;
                     stones --;
+
+                    // do the steal function
+                    if (stones == 0 && m.p2side[i] == 1) {
+                        m.p2home += m.p2side[i] + m.p1side[i];
+                        m.p2side[i] = m.p1side[i] = 0;
+                    }
                 } else 
                     return 0;
             }
