@@ -33,6 +33,7 @@ public class Mankala {
                 if (stones > 0) {
                     m.p1side[i] ++;
                     stones --;
+
                 } else {
                     return 0;
                 }
@@ -58,6 +59,8 @@ public class Mankala {
                     return 0;
                 }
             }
+
+            choice = -1;
 
         } while (stones > 0);
 
@@ -99,6 +102,8 @@ public class Mankala {
                 } else 
                     return 0;
             }
+
+            choice = m.p2side.length;
 
         } while (stones > 0);
 
