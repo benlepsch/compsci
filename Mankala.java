@@ -14,6 +14,13 @@ public class Mankala {
         p1home = p2home = 0;
     }
 
+    public Mankala(int stones) {
+        // initialize board
+        p1side = s.fill(new int[p1side.length], stones);
+        p2side = s.fill(new int[p2side.length], stones);
+        p1home = p2home = 0;
+    }
+
     void displayBoard() {
         s.prnt("  ");
         for (int i = 0; i < p2side.length; i++) 
