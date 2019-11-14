@@ -92,6 +92,7 @@ public class BowlingScore {
         
     }
 
+    // i'm not doing this in the BowlingFrame class because i need to use other frames if it's a strike or spare
     int getScore(BowlingFrame frame) {
         // if it's not a strike or spare, its EZ
         if (!frame.strike && !frame.spare) {
