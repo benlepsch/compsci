@@ -59,12 +59,27 @@ public class BowlingScore {
         // oh boy
 
         c = 0;
+        int after10 = 0;
         for (int i = 0; i < scores.length; i++) {
             if (scores[i] == 10) {
-                frames[c] = new BowlingFrame(c, new int[] {10, 0});
-                c ++;
+                // if 10th frame and strike, 2 extra rolls allowed
+                if (i == 10) {
+                    frames[c] = new BowlingFrame(c, new int[] {10, 0});
+                    // add the next two rolls
+                    after10 += scores[i + 1] + scores[i + 2];
+                    // now we're done
+                    break;
+                } else {
+                    frames[c] = new BowlingFrame(c, new int[] {10, 0});
+                    c ++;
+                }
             } else {
                 //s.prntln("making new frame with " + scores[i] + " and " + scores[i+1]);
+                if (i == 10 && scores[i] + scores[i + 1] == 10) {
+                    // spare in the 10th frame, add the last roll then get out
+                    after10 += scores[i + 2];
+                    break;
+                }
                 frames[c] = new BowlingFrame(c, new int[] {scores[i], scores[i+1]});
                 c ++;
                 i ++;
@@ -75,28 +90,40 @@ public class BowlingScore {
         // we're just assuming for now that the person has entered all of the data correctly and that it was a valid game
         // now what? we need to score them i guess
         // this might get recursive so best to write a new function
-
+        
         for (BowlingFrame f : frames) {
             if (f == null)
                 break;
             //s.prntln("Getting score for frame:");
             //s.prntln(f.show());
+            
             getScore(f);
+            
         }
+        //score += after10;
         
         for (BowlingFrame f : frames) {
             if (f == null)
                 break;
+            score += f.score;
             s.prntln(f.show());
         }
+        s.prntln("Final score: " + score);
         
     }
+    //  9 0 10 9 1 8 0 10 10 10 9 0 9 0 10 9 1
 
     // i'm not doing this in the BowlingFrame class because i need to use other frames if it's a strike or spare
     int getScore(BowlingFrame frame) {
         // if it's not a strike or spare, its EZ
+        if (frame.index >= 9) {
+            frame.score =  frame.roll1 + frame.roll2;
+            return frame.score;
+        }
+
         if (!frame.strike && !frame.spare) {
             frame.score = frame.roll1 + frame.roll2;
+            //s.prntln("finished frame " + frame.index);
             return frame.score;
         }
 
@@ -110,7 +137,6 @@ public class BowlingScore {
             frame.score = 10 + getScore(frames[frame.index + 1]);
             return frame.score;
         }
-
         return 0;
     }
 
