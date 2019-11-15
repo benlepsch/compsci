@@ -77,8 +77,9 @@ public class BowlingScore {
                 }
             } else {
                 //s.prntln("making new frame with " + scores[i] + " and " + scores[i+1]);
-                if (i == scores.length - 2 && scores[i] + scores[i + 1] == 10) {
-                    // spare in the 10th frame, add the last roll then get out
+                if (i == scores.length - 3 && scores[i] + scores[i + 1] == 10) {
+                    // spare in the 10th frame, add the frame then the last roll then get out
+                    frames[c] = new BowlingFrame(c, new int[] {scores[i], scores[i+1]});
                     after10 += scores[i + 2];
                     break;
                 }
@@ -115,8 +116,20 @@ public class BowlingScore {
         s.prntln("Final score: " + score);
 
         // OK 
-        // 
-        
+        // THAT IS DONE
+        // FINALLY
+        // the score is calculated correctly
+        // time for visuals! exciting
+        // the sample output on the paper has everything in boxes but that seems really difficult to do with ascii art so i was thinking something like this
+        /*
+        Frame   |  1  |  2  |  3  | ... |  10 | Extra
+        Rolls   | 9 - |   X | 9 / | ... |   X |  9 / 
+        Score   |   9 |  29 |  47 | ... | 171 |
+        */
+        // that is, frames on the top with two spaces between each dividing line
+        // Rolls below them, two rolls with a space centered on frame number unless its a strike, then its one space to the right of frame number
+        // Cumulative score beneath that
+        // The exception to this is the 10th frame has the final score beneath it regardless of extra rolls or not
     }
     //  9 0 10 9 1 8 0 10 10 10 9 0 9 0 10 9 1
 
@@ -148,8 +161,10 @@ public class BowlingScore {
         }
 
         if (frame.spare) {
-            frame.score = 10 + frames[frame.index + 1].roll1;
-            return frame.score;
+            if (frame.index != 9) {
+                frame.score = 10 + frames[frame.index + 1].roll1;
+                return frame.score;
+            }
         }
         return 0;
     }
