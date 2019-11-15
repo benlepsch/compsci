@@ -5,6 +5,7 @@ public class BowlingScore {
 
     int score;
     BowlingFrame[] frames = new BowlingFrame[13];
+    int[] scores;
     // "line" represents the line of input with numbers of pins knocked down
     // each frame should have two numbers unless the first number is a 10
     // an example line would be:
@@ -27,7 +28,7 @@ public class BowlingScore {
             }
         }
 
-        int[] scores = new int[spaces];
+        scores = new int[spaces];
         int last = 0, c = 0;
         for (int i = 0; i < line.length(); i++) {
             // int everything that comes before a space
@@ -95,12 +96,14 @@ public class BowlingScore {
         for (BowlingFrame f : frames) {
             if (f == null)
                 break;
-            s.prntln("Getting score for frame:");
-            s.prntln(f.show());
+            //s.prntln("Getting score for frame:");
+            //s.prntln(f.show());
             
             getScore(f);
+            //s.prntln(f.show());
             
         }
+        //s.prntln("After score: " + after10);
         score += after10;
         
         for (BowlingFrame f : frames) {
@@ -133,8 +136,11 @@ public class BowlingScore {
 
         if (frame.strike) {
             // get score from next two ROLLS NOT FRAMES
-            if (frames[frame.index + 1].strike) {
+            if (frames[frame.index + 1].strike && frame.index != 8) {
                 frame.score = 10 + frames[frame.index + 1].roll1 + frames[frame.index + 2].roll1;
+                return frame.score;
+            } else if (frame.index == 8) {
+                frame.score = 10 + frames[frame.index + 1].roll1 + scores[scores.length - 2];
                 return frame.score;
             }
             frame.score = 10 + frames[frame.index + 1].roll1 + frames[frame.index + 1].roll2;
