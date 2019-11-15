@@ -4,7 +4,7 @@ public class BowlingScore {
     public static Shortcuts s = new Shortcuts();
 
     int score;
-    BowlingFrame[] frames = new BowlingFrame[12];
+    BowlingFrame[] frames = new BowlingFrame[13];
     // "line" represents the line of input with numbers of pins knocked down
     // each frame should have two numbers unless the first number is a 10
     // an example line would be:
@@ -62,10 +62,11 @@ public class BowlingScore {
         int after10 = 0;
         for (int i = 0; i < scores.length; i++) {
             if (scores[i] == 10) {
-                // if 10th frame and strike, 2 extra rolls allowed
-                if (i == 10) {
+                // if 10th frame and strike, 2 extra rolls allowed [10, 9, 1]
+                if (i == scores.length - 3) {
                     frames[c] = new BowlingFrame(c, new int[] {10, 0});
                     // add the next two rolls
+
                     after10 += scores[i + 1] + scores[i + 2];
                     // now we're done
                     break;
@@ -75,7 +76,7 @@ public class BowlingScore {
                 }
             } else {
                 //s.prntln("making new frame with " + scores[i] + " and " + scores[i+1]);
-                if (i == 10 && scores[i] + scores[i + 1] == 10) {
+                if (i == scores.length - 2 && scores[i] + scores[i + 1] == 10) {
                     // spare in the 10th frame, add the last roll then get out
                     after10 += scores[i + 2];
                     break;
@@ -94,21 +95,24 @@ public class BowlingScore {
         for (BowlingFrame f : frames) {
             if (f == null)
                 break;
-            //s.prntln("Getting score for frame:");
-            //s.prntln(f.show());
+            s.prntln("Getting score for frame:");
+            s.prntln(f.show());
             
             getScore(f);
             
         }
-        //score += after10;
+        score += after10;
         
         for (BowlingFrame f : frames) {
             if (f == null)
                 break;
             score += f.score;
-            s.prntln(f.show());
+            //s.prntln(f.show());
         }
         s.prntln("Final score: " + score);
+
+        // OK 
+        // 
         
     }
     //  9 0 10 9 1 8 0 10 10 10 9 0 9 0 10 9 1
@@ -128,13 +132,17 @@ public class BowlingScore {
         }
 
         if (frame.strike) {
-            // get score from next two frames
-            frame.score = 10 + getScore(frames[frame.index + 1]) + getScore(frames[frame.index + 2]);
+            // get score from next two ROLLS NOT FRAMES
+            if (frames[frame.index + 1].strike) {
+                frame.score = 10 + frames[frame.index + 1].roll1 + frames[frame.index + 2].roll1;
+                return frame.score;
+            }
+            frame.score = 10 + frames[frame.index + 1].roll1 + frames[frame.index + 1].roll2;
             return frame.score;
         }
 
         if (frame.spare) {
-            frame.score = 10 + getScore(frames[frame.index + 1]);
+            frame.score = 10 + frames[frame.index + 1].roll1;
             return frame.score;
         }
         return 0;
