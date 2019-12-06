@@ -85,13 +85,14 @@ public class TriangleSolver {
     sideC = losSide(sideA, angleA, angleC);
 
     angleA = Math.toDegrees(angleA);
-    angleB = Math.toDegrees(angleB);
     angleC = Math.toDegrees(angleC);
 
     // ambiguous case because ssa
-    angl2B = Math.PI - losAngle(sideA, angleA, sideB);
+    angl2B = Math.PI - angleB;
     angl2C = Math.PI - (angl2A + angl2B);
     s2deC = losSide(s2deA, angl2A, angl2C);
+
+    angleB = Math.toDegrees(angleB);
 
     angl2A = Math.toDegrees(angl2A);
     angl2B = Math.toDegrees(angl2B);
