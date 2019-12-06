@@ -103,10 +103,10 @@ public class TriangleSolver {
     System.out.println("Enter 1 for SSS, 2 SAS, 3 ASA, 4 SSA ");
     choice = input.nextInt();
     switch(choice) {
-      case 1: SSS();
-      case 2: SAS();
-      case 3: ASA();
-      case 4: SSA();
+      case 1: SSS(); break;
+      case 2: SAS(); break;
+      case 3: ASA(); break;
+      case 4: SSA(); break;
     }
   }
 
