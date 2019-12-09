@@ -323,13 +323,15 @@ public class Picture extends SimplePicture
     Pixel toPixel = null;
     Pixel[][] toPixels = this.getPixels2D();
     Pixel[][] fromPixels = fromPic.getPixels2D();
-    for (int bruh = 0; copyRow < toPixels.length && startRow < endRow; copyRow ++, startRow ++) {
-      for (int moment = 0; copyCol < toPixels[0].length && startCol < endCol; copyCol ++, startCol ++) {
-        fromPixel = fromPixels[startRow][startCol];
-        toPixel = toPixels[copyRow][copyCol];
+    //System.out.println("For loop stuff: copyRow: " + copyRow + " toPixels.length: " + toPixels.length + " startRow: " + startRow + " endRow: " + endRow);
+    for (; copyRow < toPixels.length && startRow < endRow; copyRow ++, startRow ++) {
+      for (int cCol = copyCol, sCol = startCol; cCol < toPixels[0].length && sCol < endCol; cCol ++, sCol ++) {
+        fromPixel = fromPixels[startRow][sCol];
+        toPixel = toPixels[copyRow][cCol];
         toPixel.setColor(fromPixel.getColor());
+        //System.out.println("copying to pixel: row: " + copyRow + "\tcolumn: " + copyCol + "\t|\tfrom row: " + startRow + "\tcolumn: " + startCol);
       }
-      System.out.println("done w clumn");
+      //System.out.println("botta go another ");
     }
   }
 

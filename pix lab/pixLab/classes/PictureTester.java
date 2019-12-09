@@ -117,7 +117,7 @@ public class PictureTester
     Picture beach = new Picture("beach.jpg");
     seagull.explore();
     beach.explore();
-    beach.copy(seagull, 10, 10, 185, 164, 330, 359);
+    beach.copy(seagull, 100, 200, 230, 230, 330, 330);
     beach.explore();
   }
   
