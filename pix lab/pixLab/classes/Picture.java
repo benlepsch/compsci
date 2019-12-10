@@ -349,6 +349,17 @@ public class Picture extends SimplePicture
     this.copy(flower1,400,0);
     this.copy(flower2,500,0);
     this.mirrorVertical();
+
+    Picture beach = new Picture("beach.jpg");
+    Picture swan = new Picture("swan.jpg");
+    Picture seagull = new Picture("seagull.jpg");
+
+    this.copy(swan, 0, 0, 20, 20, 50, 50);
+    this.copy(beach, 60, 0, 200, 300, 300, 400);
+    this.copy(seagull, 300, 200, 200, 300, 300, 400);
+    this.mirrorDiagonal();
+    this.mirrorArms();
+
     this.write("collage.jpg");
   }
   
