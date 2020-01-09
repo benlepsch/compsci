@@ -95,6 +95,7 @@ public class Convert {
         //System.out.println(convertToTen("2EF", 16));
         //System.out.println(convertToWeird(751 ,16));
         int base1, base2, baseR;
+        int neg1 = 1, neg2 = 1;
         String n1, n2;
         String operator;
 
@@ -114,22 +115,31 @@ public class Convert {
 
         String ans;
 
+        if (n1.charAt(0) == '-') {
+            neg1 = -1;
+            n1 = n1.substring(1);
+        }
+        if (n2.charAt(0) == '-') {
+            neg2 = -1;
+            n2 = n2.substring(1);
+        }
+
         switch (operator) {
             case "+":
-                ans = convertToWeird(( convertToTen(n1, base1) + convertToTen(n2, base2) ), baseR);
+                ans = convertToWeird(( neg1*convertToTen(n1, base1) + neg2*convertToTen(n2, base2) ), baseR);
                 break;
             case "-":
-                ans = convertToWeird(( convertToTen(n1, base1) - convertToTen(n2, base2) ), baseR);
+                ans = convertToWeird(( neg1*convertToTen(n1, base1) - neg2*convertToTen(n2, base2) ), baseR);
                 break;
             case "*":
-                ans = convertToWeird(( convertToTen(n1, base1) * convertToTen(n2, base2) ), baseR);
+                ans = convertToWeird(( neg1*convertToTen(n1, base1) * neg2*convertToTen(n2, base2) ), baseR);
                 break;
             default:
-                ans = convertToWeird(( convertToTen(n1, base1) / convertToTen(n2, base2) ), baseR);
+                ans = convertToWeird(( neg1*convertToTen(n1, base1) / neg2*convertToTen(n2, base2) ), baseR);
                 break;
         }
 
-        s.prntln(n1 + " {" + convertToTen(n1, base1) + "} " + operator + " " + n2 + " {" + convertToTen(n2, base2) + "} = " + ans + " {" + convertToTen(ans, baseR) + "}");
+        s.prntln(n1 + " {" + ((neg1 == 1) ? "" : "-") + convertToTen(n1, base1) + "} " + operator + " " + n2 + " {"  + ((neg2 == 1) ? "" : "-") + convertToTen(n2, base2) + "} = " + ans + " {" + convertToTen(ans, baseR) + "}");
 
     }
 }

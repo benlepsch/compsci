@@ -26,13 +26,38 @@ public class Steganography {
                 clearLow(pixels[i][j]);
             }
         }
+    }
+
+    public static void testSetLow(Picture p, Color c) {
+        Pixel[][] pixels = p.getPixels2D();
+        for (int i = 0; i < pixels.length; i++) {
+            for (int j = 0; j < pixels[0].length; j++) {
+                setLow(pixels[i][j], c);
+            }
+        }
+    }
+
+    public static Picture revealPicture(Picture hidden) {
+        Picture copy = new Picture(hidden);
+        Pixel[][] pixels = copy.getPixels2D();
+        Pixel[][] source = hidden.getPixels2D();
         
+        for (int i = 0; i < pixels.length; i++) {
+            for (int j = 0; j < pixels[0].length; j++) {
+                Color col = source[i][j].getColor();
+                pixels[i][j].setColor(new Color((col.getRed() % 4) * 64, (col.getGreen() % 4) * 64, (col.getBlue() % 4) * 64));
+            }
+        }
+
+        return copy;
     }
 
     public static void main(String[] args) {
         Picture beach = new Picture("beach.jpg");
         beach.explore();
-        testClearLow(beach);
+        testSetLow(beach, Color.PINK);
         beach.explore();
+        Picture bruh = revealPicture(beach);
+        bruh.explore();
     }
 }
