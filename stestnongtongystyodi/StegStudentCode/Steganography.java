@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.awt.Point;
+import java.util.*;
 
 public class Steganography {
 
@@ -114,11 +116,43 @@ public class Steganography {
         return true;
     }
 
+    public static ArrayList<Point> findDifferences(Picture p1, Picture p2) {
+        ArrayList<Point> list = new ArrayList<Point>();
+
+        Pixel[][] pix1 = p1.getPixels2D();
+        Pixel[][] pix2 = p2.getPixels2D();
+
+        if (pix1.length != pix2.length || pix1[0].length != pix2[0].length) {
+            return list;
+        }
+
+        for (int i = 0; i < pix1.length; i++) {
+            for (int j = 0; j < pix1[0].length; j++) {
+                Color c1 = pix1[i][j].getColor();
+                Color c2 = pix2[i][j].getColor();
+
+                if (c1.getRGB() != c2.getRGB()) {
+                    list.add(new Point(i, j));
+                }
+            }
+        }
+
+        return list;
+    }
+
     public static void main(String[] args) {
-        Picture swan = new Picture("swan.jpg");
-        Picture swan2 = new Picture("swan.jpg");
-        System.out.println("Swan and swan2 are the same: " + isSame(swan, swan2));
-        testClearLow(swan);
-        System.out.println("Swan aaaaa: " + isSame(swan, swan2));
+        Picture arch = new Picture("arch.jpg");
+        Picture koala = new Picture("koala.jpg") ;
+        Picture robot1 = new Picture("robot.jpg");
+        Picture arch2 = new Picture("arch.jpg");
+        ArrayList<Point> pointList = findDifferences(arch, arch2);
+        System.out.println("PointList after comparing two identical s pictures has a size of " + pointList.size());
+        pointList = findDifferences(arch, koala);
+        System.out.println("PointList after comparing two different sized pictures has a size of " + pointList.size());
+        arch2 = hidePicture(arch, robot1, 65, 102);
+        pointList = findDifferences(arch, arch2);
+        System.out.println("Pointlist after hiding a picture has a size of " + pointList.size());
+        arch.show();
+        arch2.show(); 
     }
 }
