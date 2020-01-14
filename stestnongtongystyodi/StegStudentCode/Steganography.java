@@ -140,6 +140,36 @@ public class Steganography {
         return list;
     }
 
+    public static Picture showDifferentArea(Picture pic, ArrayList<Point> list) {
+        Picture copy = new Picture(pic);
+        Pixel[][] pixels = copy.getPixels2D();
+        int maxX = (int)list.get(0).getX(), maxY = (int)list.get(0).getY(), minX = (int)list.get(0).getX(), minY = (int)list.get(0).getY();
+
+        for (int i = 0; i < list.size(); i++) {
+            Point at = list.get(i);
+            if (at.getX() > maxX)
+                maxX = (int) at.getX();
+            if (at.getX() < minX)
+                minX = (int) at.getX();
+            if (at.getY() > maxY)
+                maxY = (int) at.getY();
+            if (at.getY() < minY)
+                minY = (int) at.getY();
+        }
+
+        for (int i = minX; i <= maxX; i++) {
+            pixels[i][minY].setColor(Color.RED);
+            pixels[i][maxY].setColor(Color.RED);
+        }
+
+        for (int j = minY; j <= maxY; j++) {
+            pixels[minX][j].setColor(Color.RED);
+            pixels[maxX][j].setColor(Color.RED);
+        }
+
+        return copy;
+    }
+
     public static void main(String[] args) {
         Picture arch = new Picture("arch.jpg");
         Picture koala = new Picture("koala.jpg") ;
@@ -152,7 +182,10 @@ public class Steganography {
         arch2 = hidePicture(arch, robot1, 65, 102);
         pointList = findDifferences(arch, arch2);
         System.out.println("Pointlist after hiding a picture has a size of " + pointList.size());
-        arch.show();
+        Picture diff = showDifferentArea(arch2, pointList);
+        diff.show();
+        Picture reveal = revealPicture(arch2);
+        reveal.show();
         arch2.show(); 
     }
 }
