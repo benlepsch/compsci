@@ -170,22 +170,104 @@ public class Steganography {
         return copy;
     }
 
+    public static ArrayList<Integer> encodeString(String s) {
+        s = s.toUpperCase();
+        String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        ArrayList<Integer> result = new ArrayList<Integer>();
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.substring(i, i+1).equals(" ")) {
+                result.add(27);
+            } else {
+                result.add(alpha.indexOf(s.substring(i, i+1)) + 1);
+            }
+        }
+
+        result.add(0);
+        return result;
+    }
+
+    public static String decodeString(ArrayList<Integer> codes) {
+        String result = "";
+        String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        for (int i = 0; i < codes.size(); i++) {
+            if (codes.get(i) == 0) {
+                return result;
+            }
+            if (codes.get(i) == 27) {
+                result = result + " ";
+            } else {
+                result = result + alpha.substring(codes.get(i) - 1, codes.get(i));
+            }
+        }
+
+        return result;
+    }
+
+    public static int[] getBitPairs(int num) {
+        int[] bits = new int[3];
+        int code = num;
+
+        for (int i = 0; i < 3; i++) {
+            bits[i] = code % 4;
+            code = code / 4;
+        }
+
+        return bits;
+    }
+
+    public static int getNumFromPairs(int[] bits) {
+        return bits[0] + bits[1]*4 + bits[2]*16;
+    }
+
+    public static void hideText(Picture source, String s) {
+        Pixel[][] pixels = source.getPixels2D();
+        ArrayList<Integer> bruh = encodeString(s);
+        int[][] d = new int[bruh.size()][3];
+
+        for (int i = 0; i < bruh.size(); i++) {
+            d[i] = getBitPairs(bruh.get(i));
+        }
+        // clear last two bits of RGB for each pixel needed
+        int count = 0;
+        for (int i = 0; i < pixels.length; i++) {
+            for (int j = 0; j < pixels[0].length; j++) {
+                Color c = pixels[i][j].getColor();
+                int red = c.getRed() / 4;
+                int green = c.getGreen() / 4;
+                int blue = c.getBlue() / 4;
+                pixels[i][j].setColor(new Color(red*4 + d[count][0], green*4 + d[count][1], blue*4 + d[count][2]));
+                count++;
+                if (count >= d.length) {
+                    return;
+                }
+            }
+        }
+    }
+
+    public static String revealText(Picture source) {
+        Pixel[][] pixels = source.getPixels2D();
+        ArrayList<Integer> dec = new ArrayList<Integer>();
+
+        for (int i = 0; i < pixels.length; i++) {
+            for (int j = 0; j < pixels[0].length; j++) {
+                Color c = pixels[i][j].getColor();
+                int r = c.getRed() % 4;
+                int g = c.getGreen() % 4;
+                int b = c.getBlue() % 4;
+                if (r == 0 && g == 0 && b == 0)
+                    return decodeString(dec);
+                dec.add(getNumFromPairs(new int[] {r, g, b}));
+            }
+        }
+
+        return decodeString(dec);
+    }
+
     public static void main(String[] args) {
-        Picture arch = new Picture("arch.jpg");
-        Picture koala = new Picture("koala.jpg") ;
-        Picture robot1 = new Picture("robot.jpg");
-        Picture arch2 = new Picture("arch.jpg");
-        ArrayList<Point> pointList = findDifferences(arch, arch2);
-        System.out.println("PointList after comparing two identical s pictures has a size of " + pointList.size());
-        pointList = findDifferences(arch, koala);
-        System.out.println("PointList after comparing two different sized pictures has a size of " + pointList.size());
-        arch2 = hidePicture(arch, robot1, 65, 102);
-        pointList = findDifferences(arch, arch2);
-        System.out.println("Pointlist after hiding a picture has a size of " + pointList.size());
-        Picture diff = showDifferentArea(arch2, pointList);
-        diff.show();
-        Picture reveal = revealPicture(arch2);
-        reveal.show();
-        arch2.show(); 
+        Picture bruh = new Picture("beach.jpg");
+        hideText(bruh, "IT WORKS IT WORKS IT aWORKS IT WORKS IT WORKS IT WORKS IT WORKdS IT WORKS IT WORKS IT hWORKS IT WORKS IT WORKSw IT WORKS IT WORKS IT WORKS ITg WORKS ");
+        System.out.println(revealText(bruh));
     }
 }
