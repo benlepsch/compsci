@@ -23,5 +23,16 @@ public class Welcome03_List {
             System.out.println("  " + ws.getId() + ": " + ws.getName());
          }
       }
+
+      double southernestLat = allstns.get(0).getLat();
+      WeatherStation southernest = allstns.get(0);
+      for (WeatherStation ws : allstns) {
+         if (ws.getLat() < southernestLat) {
+            southernest = ws;
+            southernestLat = ws.getLat();
+         }
+      }
+
+      System.out.println("furthest south: " + southernest.getName() + "\t id: " + southernest.getId() + "\t lat: " + southernest.getLat());
    }
 }
